@@ -1,46 +1,60 @@
 'use strict';
-let imgs = [];
-let keywords = [];
-let butt = true;
-let butt1 = false;
+// Get data form json file and create new instance
+$.get('data/page-1.json').then (data => {
+  data.forEach(element => {
+    let imageObj = new Image(element.image_url, element.keyword,element.title);
+    imageObj.render();
+  });
 
-function Img(image_url, title, description, keyword, horns){
-    this.url = image_url;
-    this.title = title;
-    this.description = description;
-    this.keyword = keyword;
-    this.horns = horns;
-    imgs.push(this);
+  $('#photo-template').hide();
+  createOptions(options);
+});
+
+//  constructor for images objects becuase in html there is
+//h2 and keyword and img
+var array = [];
+var options = [];
+function Image (image_url, keyword, title) {
+  this.image_url = image_url;
+  this.keyword = keyword;
+  this.title = title;
+  array.push(this);
+  options.push(keyword);
+}
+
+// methode render the images
+Image.prototype.render = function () {
+  let sectionTemplate = $('#photo-template').clone().removeAttr('id');
+  sectionTemplate.attr('class', this.keyword);
+  sectionTemplate.find('h2').text(this.keyword);
+  sectionTemplate.find('img').attr('src', this.image_url);
+  sectionTemplate.find('p').text(this.title);
+  sectionTemplate.append('main');
+  if(!keyword.includes(img.keyword)) {
+                keywords.push(img.keyword);
 };
 
-// $.ajax('./data/page-1.json')
-// .then(data =>{
-//     data.forEach(value =>{
-//         new Img(value.image_url, value.title, value.description, value.keyword, value.horns);
-//     })
-    
-//     imgs.forEach(img =>{
-//         let photos = $('section');
-//         let clonePhotos = photos.clone();
-//         clonePhotos.attr('id', `${img.keyword}`);
-//         clonePhotos.attr('class', 'info');
-//         clonePhotos.children('h2').text(img.title);
-//         clonePhotos.children('img').attr('src', `${img.url}`);
-//         clonePhotos.children('p').text(img.description);
-//         $('main').append(clonePhotos[0]);
-//         if(!keywords.includes(img.keyword)) {
-//             keywords.push(img.keyword);
-//         }
-//     });
-    
-//     keywords.forEach(keyword =>{
-//         let options = $('option');
-//         let cloneOptions = options.clone();
-//         cloneOptions.attr('value', keyword);
-//         cloneOptions.text(keyword);
-//         $('select').append(cloneOptions[0]);
-//     });
-    
+
+
+// creating options for select input
+
+    keywords.forEach(keyword =>{
+        let options = $('option');
+        let cloneOptions = options.clone();
+        cloneOptions.attr('value', keyword);
+        cloneOptions.text(keyword);
+        $('select').append(cloneOptions[0]);
+    });
+ 
+//Show selected images
+showSelected();
+function showSelected() {
+  $('select').change(function () {
+    let selected = $(this).val();
+    $('section').hide();
+    $(`.${selected}`).show();
+  });
+}
 //     $('select').change(event =>{
 //         $('section').each(function(){
 //             $(this).show();
@@ -53,4 +67,3 @@ function Img(image_url, title, description, keyword, horns){
 //             }
 //         });
 //     });
-// });
