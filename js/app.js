@@ -47,23 +47,24 @@ Image.prototype.render = function () {
     });
  
 //Show selected images
-showSelected();
-function showSelected() {
-  $('select').change(function () {
-    let selected = $(this).val();
-    $('section').hide();
-    $(`.${selected}`).show();
-  });
-}
-//     $('select').change(event =>{
-//         $('section').each(function(){
-//             $(this).show();
-//             if(event.target.value == 'default'){
-//                 $(this).show();
-//             }else if($(this).attr('id') !== event.target.value){
-//                 $(this).hide();
-//             }if($(this).attr('class') === event.target.value){
-//                 $(this).toggle();
-//             }
-//         });
-//     });
+// showSelected();
+// function showSelected() {
+//   $('select').change(function () {
+//     let selected = $(this).val();
+//     $('section').hide();
+//     $(`.${selected}`).show();
+//   });
+// }
+    $('select').change(event =>{
+        $('section').each(function(){
+            $(this).show();
+            if(event.target.value == 'default'){
+                $(this).show();
+            }else if($(this).attr('id') !== event.target.value){
+                $(this).hide();
+            }if($(this).attr('class') === event.target.value){
+                $(this).toggle();
+            }
+        });
+    });
+
